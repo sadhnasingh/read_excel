@@ -1,0 +1,35 @@
+default: &default
+  adapter: postgresql
+  database: read_excel
+  username: root
+  password: root
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  adapter: postgresql
+  database: read_excel
+  username: root
+  password: root
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  adapter: postgresql
+  database: read_excel_test
+  username: root
+  password: root
+  host: localhost
+  port: 5432
+
+
+production:
+  <<: *default
+  adapter: postgresql
+  database: read_excel
+  username: root
+  password: root
+  host: localhost
+  port: 5432

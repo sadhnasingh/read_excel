@@ -1,0 +1,82 @@
+<!-- Form to give upload botton for csv -->
+<%= form_with scope: :user, url: excel_send_data_path , local: true do |form| %>
+	
+	<p>
+		<%= form.label :file %><br>
+		<%= form.file_field :file %>
+	</p>
+
+	<p>
+		<%= form.submit %>
+		</p>
+<% end %>
+<%#= link_to "Download CSV", excel_download_path(format: "csv") %>
+  <%#byebug%>
+<% if @errors %>
+  <% @errors.each do |message| %>
+    <%= message %>
+  <% end %>
+<% end %>
+<html>
+<head>
+    <!-- plugin and cdn from dataatble.net to add jquery datatable -->
+<link rel="stylesheet"  href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script  src ="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script >
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
+</head>
+
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+        	<th></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Employee Id </th>
+            <th>Mobile No.</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<% @data.each do |data| %>
+        <tr>
+        	 <td><input type="checkbox" value="<%= data.id%>" class="delete-user" id="<%=data.id %>"></td>
+            <td><%= data.first_name%></td>
+            <td><%= data.last_name%></td>
+            <td><%= data.email %></td>
+        </tr>
+        <%end%>
+    </tbody>
+</table>
+<!-- Delete button -->
+<%= form_with scope: :delete_users, url: excel_delete_path , local: true do |form| %>
+    <p>
+        <%= form.hidden_field :data , id: "duser" %>
+    </p>
+
+    <p>
+        <%= form.submit  'Delete Selected' %>
+    </p>
+<% end %>
+
+<script type="text/javascript">
+// to pass the selected checkbox data to params
+    $('.delete-user').on('click', function (argument) {
+      if($(this).prop('checked') == true){
+    $('#duser').val($('#duser').val()+" "+this.id);
+}else{
+    var array = $('#duser').val().split(" ")
+    var index = array.indexOf(this.id);
+if (index > -1) {
+  array.splice(index, 1);
+  $('#duser').val(array.join(" "));
+}
+
+}
+      
+    })
+</script>
+</html>
