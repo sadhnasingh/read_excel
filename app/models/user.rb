@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  validates_presence_of :email
+  validates_presence_of :email_id, :first_name, :last_name
     require 'roo'
 	# To import data using csv file and saving in database 
     def self.open_spreadsheet(file)
@@ -11,10 +11,6 @@ class User < ApplicationRecord
       end
     end
 
-    # def self.attr_names
-    #   %w(email first_name last_name)
-    # end
-# 
     def self.import(file)
       @errors = []
       data = open_spreadsheet(file)
@@ -27,19 +23,17 @@ class User < ApplicationRecord
           # create hash from headers and cells
           user_data = Hash[[headers, row].transpose]
           # next if user exists
-          if User.exists?(email: user_data['email'])
-            puts "User with email #{user_data['email']} already exists"
+          if User.exists?(email_id: user_data['email_id'])
+            puts "User with email #{user_data['email_id']} already exists"
             next
           end
-          # user_data.inspect
-          # student = find_by_id(user_data["id"]) || new
+          
           user = User.new(user_data)
-          # user.attributes = user_data.to_hash.slice(*attr_names)
-          puts "Saving User with email '#{user.email}'"
+          puts "Saving User with email '#{user.email_id}'"
           if user.save
           else
-            user.errors.full_messages.each do |message|
-              @errors << "Issue line #{idx}, column #{message}"
+          user.errors.full_messages.each do |message|
+              @errors << "Row #{idx} - #{message}, Number of Sheets - #{data.sheets.count}, Total Row - #{data.last_row}"
             end
           end
         end

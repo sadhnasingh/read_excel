@@ -10,8 +10,6 @@
 		<%= form.submit %>
 		</p>
 <% end %>
-<%#= link_to "Download CSV", excel_download_path(format: "csv") %>
-  <%#byebug%>
 <% if @errors %>
   <% @errors.each do |message| %>
     <%= message %>
@@ -34,10 +32,9 @@ $(document).ready( function () {
     <thead>
         <tr>
         	<th></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Employee Id </th>
-            <th>Mobile No.</th>
+            <th>First Name</th>
+            <th>last Name</th>
+            <th>Email Id </th>
         </tr>
     </thead>
     <tbody>
@@ -46,7 +43,7 @@ $(document).ready( function () {
         	 <td><input type="checkbox" value="<%= data.id%>" class="delete-user" id="<%=data.id %>"></td>
             <td><%= data.first_name%></td>
             <td><%= data.last_name%></td>
-            <td><%= data.email %></td>
+            <td><%= data.email_id %></td>
         </tr>
         <%end%>
     </tbody>
